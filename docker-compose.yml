@@ -1,0 +1,27 @@
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    networks:
+      - cassandra_net
+    volumes:
+      - mango_cassandra_data:/var/lib/cassandra
+
+  mango:
+    build: .
+    container_name: mango
+    depends_on:
+      - cassandra
+    networks:
+      - cassandra_net
+    ports:
+      - "5000:5000"
+
+networks:
+  cassandra_net:
+    driver: bridge
+
+volumes:
+  mango_cassandra_data:

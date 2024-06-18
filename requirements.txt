@@ -1,0 +1,6 @@
+cassandra-driver
+beautifulsoup4
+requests
+langdetect
+googletrans
+yake @ git+https://github.com/LIAAD/yake@0fa58cceb465162b6bd0cab7ec967edeb907fbcc
