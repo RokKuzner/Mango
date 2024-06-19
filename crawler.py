@@ -16,21 +16,17 @@ class Crawler():
     self.database = WebsitesDatabase()
 
   def crawl(self):
-    print("CRAWLING STARTED")
     while self.urls_to_discover:
       url = self.urls_to_discover.pop()
-
-      print(f"Crawling {url}")
-      start_time = get_utc_timestamp()
 
       try:
         page_info = self.extract_page_info(url)
       except Exception as e:
-         print("There was and error with extracting page info: ", e)
+         self.database.remove_url_to_crawl(url)
          continue
-      self.database.insert_website(url, page_info["title"], page_info["keywords"])
 
-      print(f"Crawled {url} in {get_utc_timestamp()-start_time} seconds\n")
+      self.database.insert_website(url, page_info["title"], page_info["keywords"])
+      self.database.remove_url_to_crawl(url)
 
   def extract_page_info(self, url):
     #Get the response and parse html
