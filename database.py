@@ -32,6 +32,12 @@ class WebsitesDatabase():
     for keyword in keywords:
       self.session.execute(self.session.prepare("INSERT INTO keywords (keyword, url) VALUES (?, ?)"), (keyword, url)) #Save the keyword and the url into the database
 
+  def add_url_to_crawl(self, url:str):
+    try:
+      self.session.execute(self.session.prepare("INSERT INTO tocrawl (url) VALUES (?)"), (url,))
+    except cassandra.AlreadyExists:
+      pass #Do not add the url to the "tocrawl" table if the url is allready there
+
   def shutdown(self):
     self.session.shutdown()
     self.cluster.shutdown()
