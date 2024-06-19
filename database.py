@@ -41,6 +41,9 @@ class WebsitesDatabase():
   def remove_url_to_crawl(self, url:str):
     self.session.execute(self.session.prepare("DELETE FROM tocrawl WHERE url = ?"), (url,))
 
+  def get_urls_to_crawl(self):
+    return [column.url for column in self.session.execute("SELECT * FROM tocrawl")]
+
   def shutdown(self):
     self.session.shutdown()
     self.cluster.shutdown()
