@@ -38,6 +38,9 @@ class WebsitesDatabase():
     except cassandra.AlreadyExists:
       pass #Do not add the url to the "tocrawl" table if the url is allready there
 
+  def remove_url_to_crawl(self, url:str):
+    self.session.execute(self.session.prepare("DELETE FROM tocrawl WHERE url = ?"), (url,))
+
   def shutdown(self):
     self.session.shutdown()
     self.cluster.shutdown()
