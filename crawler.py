@@ -13,6 +13,7 @@ def get_utc_timestamp():
 class Crawler():
   def __init__(self) -> None:
     self.database = WebsitesDatabase()
+    self.recenty_crawled = {}
 
   def crawl(self):
     while True:
@@ -21,6 +22,11 @@ class Crawler():
          return 1 #Quit if there aren't any urls to crawl
 
       url = urls_to_crawl[0]
+
+      #Don't crawl this url if it was crawled in the last hour
+      if (url in self.recenty_crawled) and (get_utc_timestamp() - self.recenty_crawled[url] < 3600):
+         self.database.remove_url_to_crawl(url)
+         continue
 
       print(f"Crawling {url}")
 
@@ -32,6 +38,7 @@ class Crawler():
 
       self.database.insert_website(url, page_info["title"], page_info["keywords"])
       self.database.remove_url_to_crawl(url)
+      self.recenty_crawled[url] = get_utc_timestamp()
 
   def extract_page_info(self, url):
     #Get the response and parse html
