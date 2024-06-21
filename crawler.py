@@ -11,13 +11,18 @@ def get_utc_timestamp():
     return current_time_utc.timestamp()
 
 class Crawler():
-  def __init__(self, starting_urls:list[str]) -> None:
-    self.urls_to_discover = starting_urls
+  def __init__(self) -> None:
     self.database = WebsitesDatabase()
 
   def crawl(self):
-    while self.urls_to_discover:
-      url = self.urls_to_discover.pop()
+    while True:
+      urls_to_crawl = self.database.get_urls_to_crawl() #Get the urls to crawl from db
+      if len(urls_to_crawl) == 0:
+         return 1 #Quit if there aren't any urls to crawl
+
+      url = urls_to_crawl[0]
+
+      print(f"Crawling {url}")
 
       try:
         page_info = self.extract_page_info(url)
@@ -40,14 +45,14 @@ class Crawler():
     #Get page keywords
     keywords = set(keywordextractor.extract_keywords(title + " " + user_visible_content))
 
-    #Get links in page for further crawling
+    #Get all links in page for further crawling
     discovered_links_on_this_site = set()
     for link in soup.find_all("a"):
-        #If the link is valid add it to urls_to_discover
+        #If the link is valid add it to database to crawl
         link_url = link.get("href")
         parsed_url = urlparse(link_url)
         if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
-          self.urls_to_discover.append(link_url)
+          self.database.add_url_to_crawl(link_url)
           discovered_links_on_this_site.add(link_url)
         else:
           #Link isn't valid so try merging the link with the base url, example: merge "https://www.google.com/"(base url) and "/search"
@@ -55,7 +60,7 @@ class Crawler():
           link_url = urljoin(url, link_url)
           parsed_url = urlparse(link_url)
           if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
-            self.urls_to_discover.append(link_url)
+            self.database.add_url_to_crawl(link_url)
             discovered_links_on_this_site.add(link_url)
 
     return {
@@ -88,3 +93,6 @@ class Crawler():
               user_visible_content = translated_text
     
     return user_visible_content
+  
+  def add_url_to_crawl(self, url:str):
+     self.database.add_url_to_crawl(url)
