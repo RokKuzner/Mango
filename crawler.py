@@ -59,7 +59,7 @@ class Crawler():
         link_url = link.get("href")
         parsed_url = urlparse(link_url)
         if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
-          self.database.add_url_to_crawl(link_url)
+          self.add_url_to_crawl(link_url)
           discovered_links_on_this_site.add(link_url)
         else:
           #Link isn't valid so try merging the link with the base url, example: merge "https://www.google.com/"(base url) and "/search"
@@ -67,7 +67,7 @@ class Crawler():
           link_url = urljoin(url, link_url)
           parsed_url = urlparse(link_url)
           if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
-            self.database.add_url_to_crawl(link_url)
+            self.add_url_to_crawl(link_url)
             discovered_links_on_this_site.add(link_url)
 
     return {
@@ -102,4 +102,11 @@ class Crawler():
     return user_visible_content
   
   def add_url_to_crawl(self, url:str):
-     self.database.add_url_to_crawl(url)
+    self.database.add_url_to_crawl(self.clean_url(url))
+
+  def clean_url(self, url:str):
+    if "#" in url:
+      url = url[:url.index("#")]
+
+    if url[-1] == "/":
+        url = url[:-1]
