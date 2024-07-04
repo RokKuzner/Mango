@@ -7,7 +7,7 @@ WORKDIR /usr/src/mango
 # Install any needed packages specified in requirements.txt and create database
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Expose the port the app runs on
 EXPOSE 5000
