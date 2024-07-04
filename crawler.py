@@ -110,3 +110,5 @@ class Crawler():
 
     if url[-1] == "/":
         url = url[:-1]
+
+    return url
