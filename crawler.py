@@ -23,7 +23,7 @@ class Crawler():
 
       url = urls_to_crawl[0]
 
-      #Don't crawl this url if it was crawled in the last hour or it is a pdf
+      #Don't crawl this url if it was crawled in the last hour or if it's a pdf
       if (url in self.recenty_crawled and get_utc_timestamp() - self.recenty_crawled[url] < 3600) or (url[-4:] == ".pdf"):
         self.database.remove_url_to_crawl(url)
         continue
