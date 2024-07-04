@@ -50,7 +50,9 @@ class Crawler():
     user_visible_content = self.get_user_visible_content(soup)
 
     #Get page keywords
-    keywords = set(keywordextractor.extract_keywords(title + " " + user_visible_content))
+    content_keywords = set(keywordextractor.extract_keywords(user_visible_content))
+    title_keywords = set(keywordextractor.extract_keywords(title, keywords_to_extract=3))
+    keywords = content_keywords.union(title_keywords)
 
     #Get all links in page for further crawling
     discovered_links_on_this_site = set()
