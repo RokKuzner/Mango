@@ -44,6 +44,15 @@ class WebsitesDatabase():
   def get_urls_to_crawl(self):
     return [column.url for column in self.session.execute("SELECT * FROM tocrawl")]
 
+  def get_website_urls_by_keyword(self, keyword:str):
+    urls = []
+
+    urls_cols = self.session.execute(self.session.prepare("SELECT url FROM keywords WHERE keyword=?"), (keyword,))
+    for col in urls_cols:
+      urls.append(col["url"])
+
+    return urls
+
   def shutdown(self):
     self.session.shutdown()
     self.cluster.shutdown()
