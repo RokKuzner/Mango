@@ -57,18 +57,18 @@ class Crawler():
     #Get all links in page for further crawling
     discovered_links_on_this_site = set()
     for link in soup.find_all("a"):
-      #If the link is valid add it to database to crawl
-      link_url = link.get("href")
+      link_url = self.clean_url( link.get("href") )
       parsed_url = urlparse(link_url)
-      if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
+
+      if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site: #if link is valid and not allready discovered
         self.add_url_to_crawl(link_url)
         discovered_links_on_this_site.add(link_url)
       else:
         #Link isn't valid so try merging the link with the base url, example: merge "https://www.google.com/"(base url) and "/search"
-        #Then you get "https://www.google.com/search" and check if this merged url is valid
         link_url = urljoin(url, link_url)
         parsed_url = urlparse(link_url)
-        if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site:
+
+        if parsed_url.scheme and parsed_url.netloc and link_url != url and link_url not in discovered_links_on_this_site: #if link is valid and not allready discovered
           self.add_url_to_crawl(link_url)
           discovered_links_on_this_site.add(link_url)
 
