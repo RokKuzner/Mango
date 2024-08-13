@@ -1,0 +1,38 @@
+services:
+  django:
+    build: ./django
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: mango
+      DATABASE_USER: mango
+      DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+
+  crawler:
+    build: ./mangobot
+    depends_on:
+      - db
+    shm_size: 1gb
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: mango
+      DATABASE_USER: mango
+      DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: mango
+      POSTGRES_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+      POSTGRES_DB: mango
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
