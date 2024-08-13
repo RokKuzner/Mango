@@ -22,6 +22,16 @@ services:
       DATABASE_USER: mango
       DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
 
+  db-manager:
+    build: ./db-manager
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: mango
+      DATABASE_USER: mango
+      DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+
   db:
     image: postgres:latest
     ports:
