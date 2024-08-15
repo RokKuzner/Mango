@@ -10,6 +10,7 @@ services:
       DATABASE_NAME: mango
       DATABASE_USER: mango
       DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+      DATABASE_PORT: 5432
 
   crawler:
     build: ./mangobot
@@ -21,6 +22,7 @@ services:
       DATABASE_NAME: mango
       DATABASE_USER: mango
       DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+      DATABASE_PORT: 5432
 
   db-manager:
     build: ./db-manager
@@ -31,6 +33,7 @@ services:
       DATABASE_NAME: mango
       DATABASE_USER: mango
       DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
+      DATABASE_PORT: 5432
 
   db:
     image: postgres:latest
