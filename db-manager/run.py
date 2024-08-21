@@ -43,7 +43,7 @@ def create_tables():
       timestamp_utc DOUBLE PRECISION NOT NULL
     );
     """,
-    "CREATE INDEX IF NOT EXISTS idx_url ON latest_website_crawl_time(url)"
+    "CREATE INDEX IF NOT EXISTS idx_url ON latest_website_crawl_time(url);"
   )
 
   try:
