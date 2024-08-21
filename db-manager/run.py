@@ -57,9 +57,9 @@ def create_tables():
 
     # Commit the changes
     connection.commit()
-    print("Tables created successfully")
+    print("DB creation commands executed succesfully")
   except (Exception, psycopg2.DatabaseError) as error:
-    print(f"Error: {error}")
+    print(f"Error while creating DB: {error}")
   finally:
     if connection is not None:
         cursor.close()
