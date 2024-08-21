@@ -39,7 +39,7 @@ def create_tables():
 
     """
     CREATE TABLE IF NOT EXISTS latest_website_crawl_time (
-      url VARCHAR(138) PRIMARY KEY UNIQUE,
+      url VARCHAR(138) PRIMARY KEY,
       timestamp_utc DOUBLE PRECISION NOT NULL
     );
     """,
