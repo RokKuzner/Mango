@@ -42,7 +42,8 @@ def create_tables():
       url VARCHAR(138) PRIMARY KEY UNIQUE,
       timestamp_utc DOUBLE PRECISION NOT NULL
     );
-    """
+    """,
+    "CREATE INDEX IF NOT EXISTS idx_url ON latest_website_crawl_time(url)"
   )
 
   try:
