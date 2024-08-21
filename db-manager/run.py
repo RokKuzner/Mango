@@ -35,7 +35,7 @@ def create_tables():
       url TEXT NOT NULL
     );
     """,
-    "CREATE INDEX IF NOT EXISTS idx_keyword ON webpage_by_keyword(keyword)"
+    "CREATE INDEX IF NOT EXISTS idx_keyword ON webpage_by_keyword(keyword);",
 
     """
     CREATE TABLE IF NOT EXISTS latest_website_crawl_time (
