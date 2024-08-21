@@ -34,6 +34,8 @@ services:
       DATABASE_USER: mango
       DATABASE_PASSWORD: BN0GXTC6TefUYj0TuYJVXggsTzQvdKvNW2Yk6wHbzDjgUHpmkBg0NjrtWSrgtR0d
       DATABASE_PORT: 5432
+    volumes:
+      - ./db-manager/run.py:/app/run.py #MOUNT ONLY FOR TESTING PURPOSES - REMOVE FOR PRODUCTION
 
   db:
     image: postgres:latest
